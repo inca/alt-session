@@ -3,10 +3,10 @@
 var CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   , crypto = require('crypto');
 
-exports.sha256 = function(str) {
+exports.digest = function(str) {
   var p = crypto.createHash('sha256');
   p.update(str, 'utf-8');
-  return p.digest('hex');
+  return p.digest('base64');
 };
 
 exports.randomString = function(length) {

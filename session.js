@@ -1,8 +1,9 @@
 "use strict";
 
 var Session = module.exports = exports = function(options) {
+  this.options = options;
   this.redisClient = options.redisClient;
-  this.redisKey = options.keyPrefix + ':' + this.id;
+  this.redisKey = options.keyPrefix + ':' + this.options.id;
 };
 
 Session.prototype.touch = function(cb) {
