@@ -2,6 +2,8 @@
 
 var Session = module.exports = exports = function(options) {
   this.options = options;
+  this.req = options.req;
+  this.res = options.res;
   this.redisClient = options.redisClient;
   this.redisKey = options.keyPrefix + ':' + this.options.id;
 };
