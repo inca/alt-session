@@ -35,8 +35,8 @@ module.exports = exports = function(conf) {
   }
 
   return function session(req, res, next) {
-    var id = req.cookies.sid
-      , isNew = id == null || id.length != 64;
+    var id = req.signedCookies.sid
+      , isNew = id == null;
     if (isNew)
       id = generateId();
     req.session = new Session({

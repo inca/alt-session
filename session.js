@@ -49,6 +49,7 @@ Session.prototype.setCookie = function() {
   this.res.cookie('sid', this.options.id, {
     domain: this.options.cookieDomain,
     httpOnly: true,
+    signed: true,
     secure: true && this.options.secure
   });
 };
