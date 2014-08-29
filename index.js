@@ -31,7 +31,7 @@ module.exports = exports = function(conf) {
     cli.select(conf.session.dbIndex);
 
   function generateId() {
-    return utils.digest(utils.randomString(64)) + randomString(8);
+    return utils.digest(utils.randomString(64)) + utils.randomString(8);
   }
 
   return function session(req, res, next) {
