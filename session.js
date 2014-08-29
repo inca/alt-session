@@ -4,6 +4,7 @@ var Session = module.exports = exports = function(options) {
   this.options = options;
   this.req = options.req;
   this.res = options.res;
+  this.isNew = options.isNew;
   this.redisClient = options.redisClient;
   this.redisKey = options.keyPrefix + ':' + this.options.id;
 };
@@ -50,7 +51,7 @@ Session.prototype.set = function(key, value, cb) {
   sess.redisClient.hset(this.redisKey, key, JSON.stringify(value),
     function(err, status) {
       if (err) return cb(err);
-      if (sess.options.isNew)
+      if (sess.isNew)
         sess.setCookie();
       cb(null, status);
     });
@@ -68,6 +69,7 @@ Session.prototype.invalidate = function(cb) {
 };
 
 Session.prototype.setCookie = function() {
+  this.isNew = false;
   this.res.cookie('sid', this.options.id, {
     domain: this.options.cookieDomain,
     httpOnly: true,
