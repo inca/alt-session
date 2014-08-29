@@ -22,6 +22,25 @@ Session.prototype.get = function(key, cb) {
   });
 };
 
+Session.prototype.mget = function(keys, cb) {
+  cb = cb || function() {};
+  var argv = [this.redisClient, this.redisKey].concat(keys);
+  argv.push(function(err, values) {
+    if (err) return cb(err);
+    var result = {};
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i]
+        , value = values[i];
+      try {
+        value = JSON.parse(value);
+      } catch (e) {}
+      result[key] = value;
+    }
+    cb(null, result);
+  });
+  this.redisClient.hmget.apply(argv);
+};
+
 Session.prototype.set = function(key, value, cb) {
   cb = cb || function() {};
   var sess = this;
