@@ -1,0 +1,29 @@
+{
+  "name": "circumflex-session",
+  "version": "0.0.0",
+  "description": "Redis-backed sessions for Circumflex",
+  "dependencies": {
+    "redis": "*"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inca/circumflex-session"
+  },
+  "keywords": [
+    "web",
+    "app",
+    "session",
+    "circumflex",
+    "cookie"
+  ],
+  "author": "Boris Okunskiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/inca/circumflex-session/issues"
+  },
+  "homepage": "https://github.com/inca/circumflex-session"
+}
