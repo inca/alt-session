@@ -1,6 +1,6 @@
 {
   "name": "circumflex-session",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Redis-backed sessions for Circumflex",
   "dependencies": {
     "redis": "*"
