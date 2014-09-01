@@ -2,6 +2,7 @@
 
 var Session = module.exports = exports = function(options) {
   this.options = options;
+  this.id = options.id;
   this.req = options.req;
   this.res = options.res;
   this.isNew = options.isNew;
@@ -70,7 +71,7 @@ Session.prototype.invalidate = function(cb) {
 
 Session.prototype.setCookie = function() {
   this.isNew = false;
-  this.res.cookie('sid', this.options.id, {
+  this.res.cookie('sid', this.id, {
     domain: this.options.cookieDomain,
     httpOnly: true,
     signed: true,
