@@ -50,7 +50,10 @@ module.exports = exports = function(conf) {
       cookieDomain: conf.session.domain,
       secure: conf.session.secure
     });
-    if (isNew) process.nextTick(next);
+    if (isNew) {
+      req.session.setCookie();
+      process.nextTick(next);
+    }
     else req.session.touch(next);
   };
 

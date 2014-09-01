@@ -49,13 +49,7 @@ Session.prototype.mget = function(keys, cb) {
 Session.prototype.set = function(key, value, cb) {
   cb = cb || function() {};
   var sess = this;
-  sess.redisClient.hset(this.redisKey, key, JSON.stringify(value),
-    function(err, status) {
-      if (err) return cb(err);
-      if (sess.isNew)
-        sess.setCookie();
-      cb(null, status);
-    });
+  sess.redisClient.hset(this.redisKey, key, JSON.stringify(value), cb);
 };
 
 Session.prototype.remove = function(key, cb) {
@@ -70,7 +64,6 @@ Session.prototype.invalidate = function(cb) {
 };
 
 Session.prototype.setCookie = function() {
-  this.isNew = false;
   this.res.cookie('sid', this.id, {
     domain: this.options.cookieDomain,
     httpOnly: true,
