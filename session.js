@@ -29,7 +29,7 @@ Session.prototype.get = function(key, cb) {
 
 Session.prototype.mget = function(keys, cb) {
   cb = cb || function() {};
-  var argv = [this.redisClient, this.redisKey].concat(keys);
+  var argv = [this.redisKey].concat(keys);
   argv.push(function(err, values) {
     if (err) return cb(err);
     var result = {};
@@ -43,7 +43,7 @@ Session.prototype.mget = function(keys, cb) {
     }
     cb(null, result);
   });
-  this.redisClient.hmget.apply(argv);
+  this.redisClient.hmget.apply(this.redisClient, argv);
 };
 
 Session.prototype.set = function(key, value, cb) {
