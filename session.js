@@ -48,13 +48,18 @@ Session.prototype.mget = function(keys, cb) {
 
 Session.prototype.set = function(key, value, cb) {
   cb = cb || function() {};
-  var sess = this;
-  sess.redisClient.hset(this.redisKey, key, JSON.stringify(value), cb);
+  var m = this.redisClient.multi();
+  m.hset(this.redisKey, key, JSON.stringify(value));
+  m.expire(this.redisKey, this.options.tti);
+  m.exec(cb);
 };
 
 Session.prototype.remove = function(key, cb) {
   cb = cb || function() {};
-  this.redisClient.hdel(this.redisKey, key, cb);
+  var m = this.redisClient.multi();
+  m.hdel(this.redisKey, key);
+  m.expire(this.redisKey, this.options.tti);
+  m.exec(cb);
 };
 
 Session.prototype.invalidate = function(cb) {
