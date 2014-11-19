@@ -42,7 +42,7 @@ Session.prototype.invalidate = function(cb) {
 };
 
 Session.prototype.setCookie = function() {
-  this.res.cookie('sid', this.id, {
+  this.options.res.cookie('sid', this.id, {
     domain: this.options.cookieDomain,
     httpOnly: true,
     signed: true,
