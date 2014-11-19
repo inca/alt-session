@@ -4,6 +4,10 @@ var async = require('async');
 
 var Session = module.exports = exports = function(options) {
   this.options = options;
+  this.id = options.id;
+  this.req = options.req;
+  this.res = options.res;
+  this.isNew = options.isNew;
 };
 
 var _keys = {};
@@ -38,11 +42,12 @@ Session.prototype.remove = function(key, cb) {
 Session.prototype.invalidate = function(cb) {
   cb = cb || function() {};
   _keys = {};
+  this.dropCookie();
   cb();
 };
 
 Session.prototype.setCookie = function() {
-  this.options.res.cookie('sid', this.id, {
+  this.res.cookie('sid', this.id, {
     domain: this.options.cookieDomain,
     httpOnly: true,
     signed: true,
@@ -51,6 +56,5 @@ Session.prototype.setCookie = function() {
 };
 
 Session.prototype.dropCookie = function() {
-  this.options.res.clearCookie('sid');
+  this.res.clearCookie('sid');
 };
-
