@@ -51,6 +51,6 @@ Session.prototype.setCookie = function() {
 };
 
 Session.prototype.dropCookie = function() {
-  this.res.clearCookie('sid');
+  this.options.res.clearCookie('sid');
 };
 
