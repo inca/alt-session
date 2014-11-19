@@ -33,6 +33,8 @@ function generateId() {
  */
 module.exports = exports = function(options) {
 
+  options = options || {};
+
   if (!options.redis)
     throw new Error('options.redis is required for storing sessions');
 
@@ -80,6 +82,9 @@ module.exports = exports = function(options) {
 module.exports.mock = function(options) {
 
   options = options || {};
+
+  if(!options.session)
+    options.session = {};
 
   return function session(req, res, next) {
     var id = req.signedCookies.sid
