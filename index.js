@@ -1,8 +1,13 @@
 "use strict";
 
 var Session = require('./session')
+  , Mock = require('./mock')
   , redis = require('redis')
   , utils = require('./utils');
+
+function generateId() {
+  return utils.digest(utils.randomString(64)) + utils.randomString(8);
+}
 
 /**
  * Creates session middleware using specified options.
@@ -25,7 +30,6 @@ var Session = require('./session')
  *   }
  * }));
  * ```
- *
  */
 module.exports = exports = function(options) {
 
@@ -47,10 +51,6 @@ module.exports = exports = function(options) {
   if (options.session.dbIndex)
     cli.select(options.session.dbIndex);
 
-  function generateId() {
-    return utils.digest(utils.randomString(64)) + utils.randomString(8);
-  }
-
   return function session(req, res, next) {
     var id = req.signedCookies.sid
       , isNew = id == null;
@@ -71,5 +71,29 @@ module.exports = exports = function(options) {
       req.session.setCookie();
     req.session.touch(next);
   };
+
+};
+
+/**
+ * A drop-in replacement for tests.
+ */
+module.exports.mock = function(options) {
+
+  options = options || {};
+
+  return function session(req, res, next) {
+    var id = req.signedCookies.sid
+      , isNew = id == null;
+    if (isNew)
+      id = generateId();
+    req.session = new Mock({
+      id: id,
+      cookieDomain: options.session.domain,
+      secure: options.session.secure
+    });
+    if (isNew)
+      req.session.setCookie();
+    req.session.touch(next);
+  }
 
 };
