@@ -93,6 +93,8 @@ module.exports.mock = function(options) {
       id = generateId();
     req.session = new Mock({
       id: id,
+      req: req,
+      res: res,
       cookieDomain: options.session.domain,
       secure: options.session.secure
     });
