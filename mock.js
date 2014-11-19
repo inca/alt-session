@@ -18,7 +18,12 @@ Session.prototype.touch = function(cb) {
 
 Session.prototype.get = function(key, cb) {
   cb = cb || function() {};
-  cb(_keys[key]);
+  var value = _keys[key];
+  try {
+    cb(null, JSON.parse(value));
+  } catch (e) {
+    cb(null, value);
+  }
 };
 
 Session.prototype.mget = function(keys, cb) {
@@ -29,7 +34,7 @@ Session.prototype.mget = function(keys, cb) {
 
 Session.prototype.set = function(key, value, cb) {
   cb = cb || function() {};
-  _keys[key] = value;
+  _keys[key] = JSON.stringify(value);
   cb();
 };
 
