@@ -5,21 +5,38 @@ var Session = require('./session')
   , utils = require('./utils');
 
 /**
- * Creates session middleware.
+ * Creates session middleware using specified options.
  *
- * @param conf — Circumflex Configuration object.
- * @type {exports}
+ * Must be configured as follows:
+ *
+ * ```
+ * app.use(require('circumflex-session', {
+ *   redis: {
+ *     host: 'localhost',
+ *     port: 6390,
+ *     auth_pass: 'optional'
+ *   },
+ *   session: {
+ *     dbIndex: 0,         // for selecting Redis database
+ *     tti: 300,           // time to idle before session is removed from Redis, in seconds
+ *     prefix: 'sess',     // custom key prefix for Redis storage
+ *     secure: true,       // for setting cookie.secure option
+ *     domain: 'optional'  // for custom cookie domain
+ *   }
+ * }));
+ * ```
+ *
  */
-module.exports = exports = function(conf) {
+module.exports = exports = function(options) {
 
-  if (!conf.redis)
-    throw new Error('conf.redis is required for storing sessions');
+  if (!options.redis)
+    throw new Error('options.redis is required for storing sessions');
 
-  if(!conf.session)
-    conf.session = {};
+  if(!options.session)
+    options.session = {};
 
-  var cli = redis.createClient(conf.redis.port, conf.redis.host, {
-    auth_pass: conf.redis.pass || conf.redis.password || conf.redis.auth_pass
+  var cli = redis.createClient(options.redis.port, options.redis.host, {
+    auth_pass: options.redis.pass || options.redis.password || options.redis.auth_pass
   });
 
   cli.on('error', function(err) {
@@ -27,8 +44,8 @@ module.exports = exports = function(conf) {
   });
 
   // Allow changing redis DB
-  if (conf.session.dbIndex)
-    cli.select(conf.session.dbIndex);
+  if (options.session.dbIndex)
+    cli.select(options.session.dbIndex);
 
   function generateId() {
     return utils.digest(utils.randomString(64)) + utils.randomString(8);
@@ -45,10 +62,10 @@ module.exports = exports = function(conf) {
       isNew: isNew,
       req: req,
       res: res,
-      keyPrefix: conf.session.prefix || 'session',
-      tti: conf.session.tti || 300,
-      cookieDomain: conf.session.domain,
-      secure: conf.session.secure
+      keyPrefix: options.session.prefix || 'session',
+      tti: options.session.tti || 300,
+      cookieDomain: options.session.domain,
+      secure: options.session.secure
     });
     if (isNew)
       req.session.setCookie();
