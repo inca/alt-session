@@ -10,84 +10,84 @@ The asynchronous approach allows you to access session data on-demand, instead o
 
 2. Add middleware after cookie parser:
 
-        ```
-        app.use(require('circumflex-session', {
-          redis: {
-            host: 'localhost',
-            port: 6390,
-            auth_pass: 'optional'
-          },
-          session: {
-            dbIndex: 0,         // for selecting Redis database
-            tti: 300,           // time to idle before session is removed from Redis, in seconds
-            prefix: 'sess',     // custom key prefix for Redis storage
-            secure: true,       // for setting cookie.secure option
-            domain: 'optional'  // for custom cookie domain
-          }
-        }));
-        ```
+      ```
+      app.use(require('circumflex-session', {
+        redis: {
+          host: 'localhost',
+          port: 6390,
+          auth_pass: 'optional'
+        },
+        session: {
+          dbIndex: 0,         // for selecting Redis database
+          tti: 300,           // time to idle before session is removed from Redis, in seconds
+          prefix: 'sess',     // custom key prefix for Redis storage
+          secure: true,       // for setting cookie.secure option
+          domain: 'optional'  // for custom cookie domain
+        }
+      }));
+      ```
 
 2. Store session data:
 
-        ```
-        req.session.set('myKey', 'myValue', function(err) {
-          if (err)
-            return next(err);
-          // Success
-        });
-        ```
+      ```
+      req.session.set('myKey', 'myValue', function(err) {
+        if (err)
+          return next(err);
+        // Success
+      });
+      ```
 
 3. Retrieve single key:
 
-        ```
-        req.session.get('myKey', function(err, myValue) {
-          if (err)
-            return next(err);
-          // Success
-        });
-        ```
+      ```
+      req.session.get('myKey', function(err, myValue) {
+        if (err)
+          return next(err);
+        // Success
+      });
+      ```
 
 3. Retrieve multiple keys:
 
-        ```
-        req.session.mget(['myKey1', 'myKey2'], function(err, session) {
-          if (err)
-            return next(err);
-          // Success
-          // session.myKey1
-          // session.myKey2
-        });
-        ```
+      ```
+      req.session.mget(['myKey1', 'myKey2'], function(err, session) {
+        if (err)
+          return next(err);
+        // Success
+        // session.myKey1
+        // session.myKey2
+      });
+      ```
 
 4. Remove single value:
 
-        ```
-        req.session.remove('myKey', function(err) {
-          if (err)
-            return next(err);
-          // Success
-        });
-        ```
+      ```
+      req.session.remove('myKey', function(err) {
+        if (err)
+          return next(err);
+        // Success
+      });
+      ```
 
 5. Remove all values:
 
-        ```
-        req.session.remove(['myKey1', 'myKey2'], function(err) {
-          if (err)
-            return next(err);
-          // Success
-        });
-        ```
+      ```
+      req.session.remove(['myKey1', 'myKey2'], function(err) {
+        if (err)
+          return next(err);
+        // Success
+      });
+      ```
 
 6. Invalidate (clear):
 
-        ```
-        req.session.invalidate(function(err) {
-          if (err)
-            return next(err);
-          // Success
-        });
-        ```
+      ```
+      req.session.invalidate(function(err) {
+        if (err)
+          return next(err);
+        // Success
+      });
+      ```
 
 
 ## Compatibility with synchronous API
