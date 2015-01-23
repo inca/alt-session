@@ -54,6 +54,16 @@ Session.prototype.set = function(key, value, cb) {
   m.exec(cb);
 };
 
+Session.prototype.mset = function(hash, cb) {
+  cb = cb || function() {};
+  var m = this.redisClient.multi();
+  Object.keys(hash).forEach(function(key) {
+    m.hset(this.redisKey, key, JSON.stringify(hash[key]));
+  }, this);
+  m.expire(this.redisKey, this.options.tti);
+  m.exec(cb);
+};
+
 Session.prototype.remove = function(key, cb) {
   cb = cb || function() {};
   var m = this.redisClient.multi();
