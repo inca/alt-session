@@ -29,7 +29,13 @@ Session.prototype.get = function(key, cb) {
 Session.prototype.mget = function(keys, cb) {
   cb = cb || function() {};
   var session = this;
-  async.each(keys, session.get.bind(session), cb);
+  var result = [];
+  keys.forEach(function(key) {
+    try {
+      result[key] = JSON.parse(_keys[key]);
+    } catch (e) {}
+  });
+  cb(null, result);
 };
 
 Session.prototype.set = function(key, value, cb) {
@@ -38,9 +44,21 @@ Session.prototype.set = function(key, value, cb) {
   cb();
 };
 
+Session.prototype.mset = function(hash, cb) {
+  cb = cb || function() {};
+  Object.keys(hash).forEach(function(key) {
+    var value = hash[key];
+    _keys[key] = JSON.stringify(value);
+  });
+  cb();
+};
+
 Session.prototype.remove = function(key, cb) {
   cb = cb || function() {};
-  delete _keys[key];
+  var arr = Array.isArray(key) ? key : [key];
+  arr.forEach(function(key) {
+    delete _keys[key];
+  });
   cb();
 };
 
