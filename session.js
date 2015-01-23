@@ -57,7 +57,9 @@ Session.prototype.set = function(key, value, cb) {
 Session.prototype.remove = function(key, cb) {
   cb = cb || function() {};
   var m = this.redisClient.multi();
-  m.hdel(this.redisKey, key);
+  var arr = Array.isArray(key) ? key : [key];
+  arr.unshift(this.redisKey);
+  m.hdel.apply(m, arr);
   m.expire(this.redisKey, this.options.tti);
   m.exec(cb);
 };
