@@ -1,7 +1,7 @@
 {
-  "name": "circumflex-session",
+  "name": "alt-session",
   "version": "0.2.0",
-  "description": "Redis-backed sessions for Circumflex",
+  "description": "Alternative API for Express sessions (backed by Redis)",
   "dependencies": {
     "redis": "*"
   },
@@ -11,19 +11,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/inca/circumflex-session"
+    "url": "https://github.com/inca/alt-session"
   },
   "keywords": [
     "web",
     "app",
     "session",
-    "circumflex",
-    "cookie"
+    "cookie",
+    "redis",
+    "stored"
   ],
   "author": "Boris Okunskiy",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/inca/circumflex-session/issues"
+    "url": "https://github.com/inca/alt-session/issues"
   },
-  "homepage": "https://github.com/inca/circumflex-session"
+  "homepage": "https://github.com/inca/alt-session"
 }

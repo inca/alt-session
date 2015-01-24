@@ -6,12 +6,12 @@ The asynchronous approach allows you to access session data on-demand, instead o
 
 ## Usage
 
-1. `npm install circumflex-session`
+1. `npm install alt-session`
 
 2. Add middleware after cookie parser:
 
       ```
-      app.use(require('circumflex-session', {
+      app.use(require('alt-session', {
         redis: {
           host: 'localhost',
           port: 6390,

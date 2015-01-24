@@ -15,7 +15,7 @@ function generateId() {
  * Must be configured as follows:
  *
  * ```
- * app.use(require('circumflex-session', {
+ * app.use(require('alt-session', {
  *   redis: {
  *     host: 'localhost',
  *     port: 6390,
