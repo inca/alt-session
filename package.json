@@ -1,6 +1,6 @@
 {
   "name": "alt-session",
-  "version": "0.2.0",
+  "version": "0.0.1",
   "description": "Alternative API for Express sessions (backed by Redis)",
   "dependencies": {
     "redis": "*"
